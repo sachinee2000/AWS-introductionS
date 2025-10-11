@@ -1,0 +1,40 @@
+VPC  (Virtual private cloud)
+
+20.0.2.0  --> its network adress bcz last number value is zero
+20.0.2.1 ---> its ip adress (internet protocol) bcz last number value is 1 
+
+class of ip adress
+                                                           rules....                                                                                    subnet mask
+class A - 1 to 126     ( 0 is default ip adress )          N.H.H.H                    1.0.0.0 -126.2.1.1  we can change host value upto 255      class A   2555.0.0.0
+class B - 128 to 191   ( 127 is loop back ip adress)       N.N.H.H  (network and host) --> in this we can change 2 host value                    class B   255.255.0.0
+class c - 192 to 223                                       N.N.N.H                      --> we can change only one host                          class C   255.255.255.0
+
+
+subnet mask means 20.0.0.0  -> 255.0.0.0 we can change value upto 255
+if in case 20.0.0.1/24 --> 24 is net mask
+
+
+*  in vpc creation we can give net mask only 16 -- 28 (if u give 15 it will not work and 29 give it also not work only take 16 - 28 any number inside this
+
+ipv4 means 32 netmask
+ 20.0.0.0 --- 8+8+8+8 =32 bites thats why we take 32
+
+
+
+
+
+VPC...........VPC............VPC>>>>>>>>>
+
+aws cloud is there inside region will come inside the region we can create vpc 
+
+*in one region we can create 5 vpc network....but we can create multiple subnets (subnet means zone in vpc)
+
++ region represents vpc
++ zone represents subnet
+
+SCOPE means way u manage
+
+scope have 3 types 
+1. Region scope      ( u create vpc in mumbai so it will region)
+2. Zone scope        ( u create subnet in multiple zone)
+3. Global scope      ( IAM identity acess management. its only global)
