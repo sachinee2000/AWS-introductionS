@@ -1,0 +1,214 @@
+EC2
+after ec2 lauch we create web server that time (install httpd packages)
+steps for install packages
+sudo su
+1. yum install httpd -y
+2. systemctl start httpd
+3. systemctl status httpd
+4. systemctl enable httpd
+5. cd /var/www/html/
+ls -l
+vi index.html
+ls -l
+cat index.html
+
+
+this are we can automation with script
+
+#!/bin/bash
+sudo yum install httpd -y
+sudo systemctl enable httpd
+sudo echo "<h1> Welecome bro </h1>" >
+/var/www/html/index.html
+sudo systemctl start httpd
+
+
+🌩️ What is Amazon EC2?
+
+Amazon EC2 (Elastic Compute Cloud) is a virtual server in the cloud that allows you to run applications on-demand without owning physical servers.
+
+In simple words:
+
+EC2 = Virtual Machine in AWS Cloud.
+
+You can launch, configure, manage, and terminate these virtual servers whenever you want.
+
+⚙️ Key Features of EC2
+Feature	Description
+Elasticity	You can increase or decrease the number of EC2 instances anytime based on demand.
+Scalability	Supports Auto Scaling to automatically add/remove instances based on load.
+Pay-as-you-go	You pay only for what you use (per second/hour).
+Variety of Instance Types	Different configurations for CPU, RAM, Storage, and Networking to suit different workloads.
+Secure	Integrates with IAM, Security Groups, and Key Pairs for strong security control.
+Customizable	Choose your own OS (Linux, Windows, Ubuntu, etc.) and install any software you need.
+🧩 EC2 Components
+
+Let’s break down the main components that make EC2 work:
+
+1. Amazon Machine Image (AMI)
+
+Template used to launch an instance.
+
+Contains the OS and pre-installed software.
+
+You can use:
+
+AWS-provided AMIs
+
+Marketplace AMIs
+
+Your own custom AMIs
+
+2. Instance Type
+
+Determines the hardware configuration (CPU, memory, storage, and network).
+
+Examples:
+
+t2.micro → small, free-tier eligible (for testing)
+
+m5.large → general-purpose
+
+c6g.xlarge → compute-optimized
+
+p4d.24xlarge → GPU instance for ML
+
+3. Instance
+
+A running virtual server created from an AMI.
+
+You can start, stop, or terminate it anytime.
+
+Each instance gets:
+
+Private IP (for internal network)
+
+Public IP (optional, for internet access)
+
+Instance ID (unique identifier)
+
+4. EBS (Elastic Block Store)
+
+It’s a persistent storage volume attached to an EC2 instance.
+
+Works like a hard drive for your instance.
+
+You can:
+
+Detach and reattach to another instance
+
+Create snapshots (backups)
+
+5. Security Group
+
+Acts as a virtual firewall for your instance.
+
+Controls inbound and outbound traffic using rules (by IP, port, or protocol).
+
+Example:
+
+Allow SSH (port 22) from your laptop IP
+
+Allow HTTP (port 80) for web traffic
+
+6. Key Pair
+
+Used for secure login to your EC2 instance.
+
+Consists of:
+
+Public Key (stored in AWS)
+
+Private Key (.pem file) (you keep this)
+
+Used for SSH authentication.
+
+7. Elastic IP
+
+A static public IP that you can assign to any instance.
+
+Stays the same even if you stop or start the instance.
+
+8. User Data
+
+Script that runs automatically when the instance launches.
+
+Used for initial setup or software installation (like web servers).
+
+Example (Linux):
+
+#!/bin/bash
+sudo yum update -y
+sudo yum install httpd -y
+sudo systemctl start httpd
+sudo systemctl enable httpd
+
+🧠 EC2 Lifecycle
+
+Launch – Create an instance using AMI & configuration.
+
+Running – Instance is active and can be accessed.
+
+Stopped – Instance is off but data remains in EBS.
+
+Terminated – Instance and data are deleted permanently.
+
+💰 Pricing Models
+Type	Description	Use Case
+On-Demand	Pay per second/hour	Short-term, unpredictable workloads
+Reserved Instances	1 or 3-year commitment with discount	Long-term, steady usage
+Spot Instances	Use spare AWS capacity at big discounts	Flexible, fault-tolerant apps
+Savings Plans	Flexible pricing plan with commitment	Cost optimization
+Dedicated Hosts	Physical servers for compliance	Licensing and regulatory needs
+☁️ Example: Launching a Web Server on EC2
+
+Go to AWS Management Console → EC2.
+
+Click Launch Instance.
+
+Choose an AMI (e.g., Amazon Linux 2).
+
+Choose Instance Type (e.g., t2.micro).
+
+Configure:
+
+Security Group (allow SSH, HTTP)
+
+Key Pair (.pem file)
+
+Launch Instance.
+
+Connect via SSH:
+
+ssh -i mykey.pem ec2-user@<Public-IP>
+
+
+Install Apache:
+
+sudo yum install httpd -y
+sudo systemctl start httpd
+
+
+Access your instance’s Public IP in a browser → web page loads 🎉
+
+📊 Monitoring & Management Tools
+
+CloudWatch → Monitor CPU, memory, network metrics.
+
+AWS Systems Manager → Manage and patch instances.
+
+Elastic Load Balancer (ELB) → Distribute traffic across instances.
+
+Auto Scaling Group (ASG) → Automatically scale in/out based on demand.
+
+🧭 Use Cases
+
+Hosting websites or applications
+
+Running backend services or APIs
+
+Data processing or batch jobs
+
+Machine learning model training
+
+Development and testing environments
