@@ -1,0 +1,20 @@
+peering means number of vpc in same region or diffrent region or diffrent account we can do attach or give connection for communnicate with help of peering
+
+formual n(n-1)/2
+
+steps how to do
+
+1. create vpc in diffrent region 2 or 3
+2. create subnets also according to region vpc
+3. create internate gate way all region and attach to vpc
+4. create route table and do subnet associaton
+5 after give peering connection one vpc to other vpc and which one vpc to you give request on that vpc inside go and action botton click select accept request
+do that same proccess for all region
+
+6. next create ec2 how much region u have that much of vpc
+7. connect to cli with hepl ssh port paste and copy on cli
+8. when login type sudo su
+and craete one file example touch pavan.pem
+vim pavan.pem  next yaml file will open paste there pem key file
+come out side click escape botton and shift+colon and after wq!
+next type ping google.com the pings are pinging its done
