@@ -1,0 +1,13 @@
+IDENTITY ACESS MANAGEMENT
+
+IAM i used for create user,groups,roles,policys
+
+user have 2 access in AWS
+ 1. one is console acess  --> username and password
+2. second one cli acess  --> acess key and security key
+
+binary means software package 
+
+they are two policy is there in aws 
+1. Custom policy
+2. AWS manage policy
