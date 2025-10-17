@@ -1,0 +1,8 @@
+TRANSIT GATEWAY 
+
+transite gate way when we used means number of vpc example 100 vpcs i want that time we are not do vpc peering we go through transite gateway
+
+1. first we create vpcs and subnets and inernte gate way and rout table
+2. and after create transite gate way for creating take time that time we can create ec2 instances
+3. after creating ec2 see the transite gateway its done and next go to transite attachement and create
+4. next see transit gate way route table in association and propogation when its ok its done
