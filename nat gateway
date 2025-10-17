@@ -20,6 +20,20 @@ Send data to other internet services
 
 ➡️ That’s where NAT Gateway comes in.
 
+
+
+
+practical
+
+one vpc and two subnets one is private and public subnet and internet gate way and route table in only do for public subnet for subnet association and routes
+2. creat 2 ec2 for one public and private and 
+3. do acces for cli with help of ssh -i 
+4. after login connect to private ec2 instance but its cant connect bcz
+5. didnt nat gate way create thats why 
+6. after create nat gate way go to route table do subnet associate and route give 0.0.0.0/16 and connect with nat gate way 
+7. after come to see cli and check cli will connect to private ec2 with helpp of chmod 400 and ssh -i
+8. last one check ping google.com
+
 ⚙️ How it works (Simplified):
 
 A private EC2 instance sends a request to the internet (e.g., to get updates).
