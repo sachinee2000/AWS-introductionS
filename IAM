@@ -10,4 +10,24 @@ binary means software package
 
 they are two policy is there in aws 
 1. Custom policy
-2. AWS manage policy
+2. AWS manage policy 
+
+
+PRACTICAL 
+
+TASK - create one user and give policy for acces the ec2 , its means with policy help u can start and stop the ec2
+
+1. first create one vpc ( subnets,route table, internet gate way)
+2. create ec2
+3. open the service IAM 
++ click on user and create user and give name and select Provide user access to the AWS Management Console - optional
++ set permission ( attach policy directly ) 
++ ec2 fullacess and readly only ploicy
++ next create user , download file (user name password is there and url) user will done
+and next open incognit tube on this browse copy the url (what u copy in download file)
++they ask account ID and username and password(that  is also thre in download file)
+and last one ec2 will generate on that side
+4. goto permission policy 
+* create policy  (in specify permission) select jason or visual and select service ec2, and give permission what u want
++ give policy name next come user side search policy name and attach 
++ next go see that ec2 that will work according to policy
