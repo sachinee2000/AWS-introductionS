@@ -31,3 +31,191 @@ and last one ec2 will generate on that side
 * create policy  (in specify permission) select jason or visual and select service ec2, and give permission what u want
 + give policy name next come user side search policy name and attach 
 + next go see that ec2 that will work according to policy
+
+
+
+
+
+CREATION OF ROLES
+
+🧠 1. What is a Role in AWS?
+
+An IAM Role in AWS is like a temporary identity that gives permissions to access AWS services.
+It’s not a user — it doesn’t have username or password.
+Instead, a user, service, or application can “assume” (use) that role to perform specific tasks.
+
+🎯 2. Why We Use Roles (Purpose)
+Reason	Explanation
+Security	Roles eliminate the need to store Access Keys or Passwords.
+Temporary Access	Roles provide short-term credentials — automatically expire.
+Cross-Service Access	Example: EC2 instance needs to read S3 — we assign a role instead of keys.
+Cross-Account Access	Allow users from another AWS account to access your resources.
+Least Privilege Principle	You can limit each role’s permissions to exactly what’s required.
+🔹 Real Example:
+
+You have an EC2 instance that needs to:
+
+Download files from S3
+
+Write logs to CloudWatch
+
+Instead of embedding keys inside the EC2 code (insecure ❌),
+you create a role that gives S3 + CloudWatch permissions and attach it to the EC2 instance ✅.
+
+⚙️ 3. Components of a Role
+Component	Description
+Trust Policy	Defines who can assume the role (EC2, Lambda, other accounts, etc.)
+Permission Policy	Defines what actions can be done (S3:GetObject, EC2:DescribeInstances, etc.)
+Session Duration	Temporary credentials created when the role is assumed (default 1 hour)
+🧭 4. Step-by-Step: How to Create a Role (in AWS Console)
+
+Let’s create a role for EC2 to access S3 as a complete example.
+
+🪜 Step 1: Open IAM Console
+
+Sign in to the AWS Management Console.
+
+Search and open IAM (Identity and Access Management).
+
+From the left panel → Click Roles.
+
+Click Create Role.
+
+🪜 Step 2: Choose Trusted Entity
+
+Choose who will use the role:
+
+Select AWS service.
+
+Under “Use case”, choose EC2.
+
+Click Next.
+
+🧩 This means: EC2 instances can assume this role.
+
+🪜 Step 3: Attach Permission Policies
+
+Now attach policies that define what the role can do.
+
+Example:
+✅ Select AmazonS3FullAccess
+(This allows full access to all S3 buckets.)
+
+Click Next.
+
+🪜 Step 4: Add Tags (Optional)
+
+Tags help with organization, e.g.:
+
+Key: Project, Value: DevOps
+
+Key: Environment, Value: Production
+
+Click Next.
+
+🪜 Step 5: Name and Create Role
+
+Role name → EC2-S3-Access-Role
+
+Review summary (trusted entity = EC2, permission = S3FullAccess)
+
+Click Create Role
+
+✅ Role successfully created!
+
+🧩 5. Attach Role to EC2 Instance
+
+Now that the role exists, you need to attach it to your EC2.
+
+🔸 Option 1: When launching a new instance
+
+While launching EC2 → under Advanced Details → IAM instance profile
+→ choose the role EC2-S3-Access-Role.
+
+🔸 Option 2: Attach to existing instance
+
+Go to EC2 → Instances
+
+Select your instance
+
+Click Actions → Security → Modify IAM Role
+
+Choose EC2-S3-Access-Role
+
+Save changes ✅
+
+🧑‍💻 6. Accessing the Role from EC2 (Testing)
+
+SSH into your EC2 instance:
+
+ssh -i your-key.pem ubuntu@<your-ec2-public-ip>
+
+
+Run AWS CLI to test access:
+
+aws s3 ls
+
+
+If everything is correct, you’ll see a list of your S3 buckets.
+🎉 That means your EC2 assumed the IAM Role successfully!
+
+No need for credentials in .aws/credentials file — EC2 metadata provides temporary credentials automatically.
+
+🧱 7. How Role Works Internally
+
+Here’s the internal flow simplified:
+
+[EC2 Instance] → assumes → [IAM Role]
+   ↓
+AWS STS (Security Token Service) issues temporary credentials
+   ↓
+EC2 uses these credentials → to access S3 / other services
+
+
+So AWS automatically rotates and expires credentials — no manual handling needed.
+
+🧰 8. Optional: Create Role Using AWS CLI
+
+If you prefer command line:
+
+Step 1: Create a trust policy (trust-policy.json)
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": { "Service": "ec2.amazonaws.com" },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+
+Step 2: Create Role
+aws iam create-role \
+  --role-name EC2S3AccessRole \
+  --assume-role-policy-document file://trust-policy.json
+
+Step 3: Attach Permission Policy
+aws iam attach-role-policy \
+  --role-name EC2S3AccessRole \
+  --policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess
+
+Step 4: Attach Role to EC2
+aws ec2 associate-iam-instance-profile \
+  --instance-id i-0abcd1234ef567890 \
+  --iam-instance-profile Name=EC2S3AccessRole
+
+🧾 9. Summary Table
+Step	Description	Example
+1	Create Role	IAM → Roles → Create
+2	Choose Trusted Entity	EC2
+3	Attach Policy	AmazonS3FullAccess
+4	Attach to EC2	via Instance Profile
+5	Test Access	aws s3 ls
+6	Result	EC2 can access S3 without keys ✅
+💡 10. Why Roles Are Better Than Access Keys
+Access Keys	IAM Roles
+Permanent                             	Temporary
+Must be stored manually            	Automatically handled
+High security risk                 	Safer and managed by AWS
+Hard to rotate                     	Auto-rotated credentials
